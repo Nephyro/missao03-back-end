@@ -5,6 +5,7 @@
  * Versão: 1.1 
  ******************************************************************************************************************/
 
+// Importando bibliotecas readline e sistema da aplicação
 const readline = require('readline')
 const sistem = require('./modulo/sistema.js')
 
@@ -14,14 +15,14 @@ const entradaDeDados = readline.createInterface({
 })
 
 console.log(`\n*******************************************
-             \n Boas Vindas ao Sistema Calcular de médias
+             \n Boas Vindas ao Sistema Calcular Médias
              \n*******************************************\n`)
 
 entradaDeDados.question('Qual o gênero do aluno(a)? \nFeminino ou Masculino: ', function(generoAluno){
-    let sexoAluno = generoAluno.trim().toLowerCase()
+    let sexoAluno = generoAluno
 
     entradaDeDados.question('Qual o gênero do professor(a)? \nFeminino ou Masculino: ', function(generoProfessor){
-        let sexoProfessor = generoProfessor.trim().toLowerCase()
+        let sexoProfessor = generoProfessor
 
         entradaDeDados.question('Digite o nome do professor(a): ', function(nomeDoProfessor){
             let nomeProfessor = nomeDoProfessor
@@ -47,13 +48,16 @@ entradaDeDados.question('Qual o gênero do aluno(a)? \nFeminino ou Masculino: ',
                                     entradaDeDados.question('Digite a nota 4: ', function(valor4){
                                         let nota4 = Number(valor4)
 
+                                        // Chamando as funções para usar na saída final
                                         let validar = sistem.tratrativas(nota1, nota2, nota3, nota4, nomeAluno, nomeProfessor, sexoAluno, sexoProfessor, cursoAluno, disciplinaCurso)
                                         let media = sistem.mediaAluno(nota1, nota2, nota3, nota4)
                                         let statusAluno = sistem.situacaoAluno(nota1, nota2, nota3, nota4)
                                         let validarGenero = sistem.validacaoGenero(sexoAluno, sexoProfessor, statusAluno)
                                         
+                                        // Condição para verificar se o que o usuário digitou está correta
                                         if(validar){
 
+                                            // Caso validação estiver certo, se o aluno estiver de exame pedirá a noda do exame
                                             if(statusAluno === 'EXAME!'){
                                                 entradaDeDados.question(`\n${validarGenero.aluno} ${nomeAluno} ficou de exame, por favor, informe a nota do exame para calcular a média final e a situação final do aluno: `, function(valorExame){
                                                     let notaExame = Number(valorExame)
@@ -75,22 +79,26 @@ entradaDeDados.question('Qual o gênero do aluno(a)? \nFeminino ou Masculino: ',
 
                                                     let exame = sistem.mediaFinal(nota1, nota2, nota3, nota4, notaExame)
 
+                                                    console.log('\n==============RELATÓRIO DO EXAME==============')
                                                     console.log(`Nota do exame: ${notaExame}`)
                                                     console.log(`Notas: ${nota1}, ${nota2}, ${nota3}, ${nota4}, ${notaExame}`)
                                                     console.log(`Média do exame: ${exame.mediaExame.toFixed(2)}`)
                                                     console.log(`Situação final: ${exame.statusFinal}`)
+                                                    console.log('==============================================')
 
                                                     entradaDeDados.close()
                                                 })
 
+                                            // Se o aluno não ficar de exame então exibirá os resultados e o status de APROVADO ou REPROVADO
                                             }else{    
 
-                                                console.log('\nRELATÓRIO DO ALUNO\n')
+                                                console.log('\n==============RELATÓRIO DO ALUNO==============')
                                                 console.log(`${validarGenero.aluno} ${nomeAluno} foi ${validarGenero.status} na disciplina ${disciplinaCurso}.`)
                                                 console.log(`Curso: ${cursoAluno}`)
                                                 console.log(`${validarGenero.professor}: ${nomeProfessor}`)
                                                 console.log(`Notas: ${nota1}, ${nota2}, ${nota3}, ${nota4}`)
-                                                console.log(`Média Final: ${media.toFixed(2)}\n`)
+                                                console.log(`Média Final: ${media.toFixed(2)}`)
+                                                console.log('==============================================\n')
                                                 
                                                 entradaDeDados.close()
                                             }

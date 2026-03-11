@@ -5,7 +5,8 @@
  * Versão: 1.0 
 // ******************************************************************************************************************/
 
-const tratrativa = function(nomeUsuario, peso, altura){
+// Função responsável pela tratação das entradas
+const tratativa = function(nomeUsuario, peso, altura){
     let kg      = Number(String(peso).replace(',', '.'))
     let alt     = Number(String(altura).replace(',', '.'))
     let nome    = nomeUsuario
@@ -17,6 +18,8 @@ const tratrativa = function(nomeUsuario, peso, altura){
     }
 }
 
+
+// Função para calcular o Imc
 const calculoImc = function(peso, altura){
 
     let kg      = Number(String(peso).replace(',', '.'))
@@ -31,6 +34,8 @@ const calculoImc = function(peso, altura){
     
 }
 
+
+// Função para identificar a situação do usuário
 const tabelaImc = function(peso, altura){
     
     let imc = calculoImc(peso, altura)
@@ -55,7 +60,7 @@ const tabelaImc = function(peso, altura){
 
 
 module.exports = {
-    tratrativa,
+    tratativa,
     calculoImc,
     tabelaImc
 }

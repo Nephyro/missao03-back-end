@@ -5,6 +5,7 @@
  * Versão: 1.1
  ******************************************************************************************************************/
 
+// Função para tratar as entradas gerais
 const tratrativas = function(nota1, nota2, nota3, nota4, nomeAluno, nomeProfessor, sexoAluno, sexoProfessor, cursoAluno, disciplinaCurso){
     let valor1 = Number(String(nota1).replace(',', '.'))
     let valor2 = Number(String(nota2).replace(',', '.'))
@@ -24,13 +25,15 @@ const tratrativas = function(nota1, nota2, nota3, nota4, nomeAluno, nomeProfesso
         valor2 > 100 || isNaN(valor3) || valor3 == '' || valor3 < 0 || valor3 > 100 || isNaN(valor4) || valor4 == '' || valor4 < 0 || 
         valor4 > 100 || !isNaN(nomeDoAluno) || nomeDoAluno == '' || !isNaN(nomeDoProfessor) || !isNaN(curso) || curso == '' || !isNaN(disciplina) ||
         disciplina == '' || nomeDoProfessor == '' || !isNaN(sexo1) || sexo1 == '' || !isNaN(sexo2) || sexo2 == '' ||
-        !validacaoGenero.includes(sexo1.toLowerCase()) || !validacaoGenero.includes(sexo2.toLowerCase())){
+        !validacaoGenero.includes(sexo1) || !validacaoGenero.includes(sexo2)){
             return false
         }else{
             return true
         }
 }
 
+
+// Função responsável pelo calculo da media do aluno
 const mediaAluno = function(nota1, nota2, nota3, nota4){
     let valor1 = Number(nota1)
     let valor2 = Number(nota2)
@@ -42,6 +45,8 @@ const mediaAluno = function(nota1, nota2, nota3, nota4){
     return media
 }
 
+
+// Função para validar a situaçao do aluno com base na média e a regra da instituição
 const situacaoAluno = function(nota1, nota2, nota3, nota4){
     let media = mediaAluno(nota1, nota2, nota3, nota4)
     let situacao
@@ -57,6 +62,8 @@ const situacaoAluno = function(nota1, nota2, nota3, nota4){
     return situacao
 }
 
+
+// Função responsável pelo calculo do exame com a media anterior mais a nota do exame
 const mediaFinal = function(nota1, nota2, nota3, nota4, notaExame){
     let mediaDoAluno = mediaAluno(nota1, nota2, nota3, nota4)
     let situacao = situacaoAluno(nota1, nota2, nota3, nota4)
@@ -81,6 +88,8 @@ const mediaFinal = function(nota1, nota2, nota3, nota4, notaExame){
     }
 }
 
+
+// Função dedicada para identificar tanto o gênero do aluno quanto do professor
 const validacaoGenero = function(sexoAluno, sexoProfessor, status){
     
 
@@ -90,7 +99,7 @@ const validacaoGenero = function(sexoAluno, sexoProfessor, status){
         status: status
     }
 
-    if(['feminino', 'feminina'].includes(sexoAluno)){
+    if(['feminino', 'feminina'].includes(sexoAluno.trim().toLowerCase())){
         genero.aluno = 'A aluna'
 
         if(status === 'APROVADO!') genero.status = 'APROVADA!'
@@ -98,7 +107,7 @@ const validacaoGenero = function(sexoAluno, sexoProfessor, status){
         if(status === 'EXAME!') genero.status = 'EXAME!'
         }
 
-    if(['feminina', 'feminino'].includes(sexoProfessor)){
+    if(['feminina', 'feminino'].includes(sexoProfessor.trim().toLowerCase())){
         genero.professor = 'Professora'
     }
     

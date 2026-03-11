@@ -29,7 +29,7 @@ entradaDeDados.question('Digite seu nome: ', function(nome){
 
             
             let calcular = sistem.calculoImc(peso, altura)
-            let verificacao = sistem.tratrativa(nomeUsuario, peso, altura)
+            let verificacao = sistem.tratativa(nomeUsuario, peso, altura)
             let situacaoUsuario = sistem.tabelaImc(peso, altura)
 
             if(verificacao !== true){
