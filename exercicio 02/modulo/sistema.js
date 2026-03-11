@@ -1,11 +1,11 @@
 /******************************************************************************************************************
  * Objetivo: Arquivo responsável pelos calculos e tratrativas da aplicação Médias Escolares
- * Data: 27/02/2026
+ * Data: 05/03/2026
  * Autor: Anderson Ribeiro
- * Versão: 1.0 
+ * Versão: 1.1
  ******************************************************************************************************************/
 
-const tratrativas = function(nota1, nota2, nota3, nota4, nomeAluno, nomeProfessor, sexoAluno, sexoProfessor, cursoAluno, disciplinaCurso, notaExame){
+const tratrativas = function(nota1, nota2, nota3, nota4, nomeAluno, nomeProfessor, sexoAluno, sexoProfessor, cursoAluno, disciplinaCurso){
     let valor1 = Number(String(nota1).replace(',', '.'))
     let valor2 = Number(String(nota2).replace(',', '.'))
     let valor3 = Number(String(nota3).replace(',', '.'))
@@ -17,15 +17,14 @@ const tratrativas = function(nota1, nota2, nota3, nota4, nomeAluno, nomeProfesso
     let nomeDoProfessor = nomeProfessor
     let sexo1 = sexoAluno
     let sexo2 = sexoProfessor
-    let notaAdicional = Number(String(notaExame).replace(',', '.'))
     let curso = cursoAluno
     let disciplina = disciplinaCurso
 
     if(isNaN(valor1) || valor1 == '' || valor1 < 0 || valor1 > 100 || isNaN(valor2) || valor2 == '' || valor2 < 0 || 
         valor2 > 100 || isNaN(valor3) || valor3 == '' || valor3 < 0 || valor3 > 100 || isNaN(valor4) || valor4 == '' || valor4 < 0 || 
         valor4 > 100 || !isNaN(nomeDoAluno) || nomeDoAluno == '' || !isNaN(nomeDoProfessor) || !isNaN(curso) || curso == '' || !isNaN(disciplina) ||
-        disciplina == '' || nomeDoProfessor == '' || !isNaN(sexo1) || sexo1 == '' || !isNaN(sexo2) || sexo2 == '' || isNaN(notaAdicional) ||
-        notaAdicional == '' || !validacaoGenero.includes(sexo1.toLowerCase()) || !validacaoGenero.includes(sexo2.toLowerCase())){
+        disciplina == '' || nomeDoProfessor == '' || !isNaN(sexo1) || sexo1 == '' || !isNaN(sexo2) || sexo2 == '' ||
+        !validacaoGenero.includes(sexo1.toLowerCase()) || !validacaoGenero.includes(sexo2.toLowerCase())){
             return false
         }else{
             return true
@@ -58,40 +57,45 @@ const situacaoAluno = function(nota1, nota2, nota3, nota4){
     return situacao
 }
 
-const mediaFinal = function(media, notaExame){
-    let situacao        = situacaoAluno(nota1, nota2, nota3, nota4)
-    let mediaDoAluno    = mediaAluno(nota1, nota2, nota3, nota4)
-    let notaAdicional   = Number(String(notaExame).replace(',', '.'))
+const mediaFinal = function(nota1, nota2, nota3, nota4, notaExame){
+    let mediaDoAluno = mediaAluno(nota1, nota2, nota3, nota4)
+    let situacao = situacaoAluno(nota1, nota2, nota3, nota4)
+
     let situacaoFinal
-    let situacaoDasituacao
+    let resultadoFinal
 
     if(situacao == 'EXAME!'){
-        situacaoFinal = (mediaDoAluno + notaAdicional) / 2
 
-        if(situacaoFinal > 60){
-            situacaoDasituacao = 'APROVADO NO EXAME!'
+        resultadoFinal = (mediaDoAluno + notaExame) / 2
+
+        if(resultadoFinal >= 60){
+            situacaoFinal = 'APROVADO NO EXAME!'
         }else{
-            situacaoDasituacao = 'REPROVADO NO EXAME!'
+            situacaoFinal = 'REPROVADO NO EXAME!'
         }
     }
 
-    return situacaoDasituacao
+    return {
+        mediaExame: resultadoFinal,
+        statusFinal: situacaoFinal
+    }
 }
 
-const validacaoGenero = function(sexoAluno, sexoProfessor){
+const validacaoGenero = function(sexoAluno, sexoProfessor, status){
     
 
     let genero = {
         aluno: 'O aluno',
         professor: 'Professor',
-        status: situacaoAluno
+        status: status
     }
 
-    if(['feminina', 'feminino'].includes(sexoAluno)){
+    if(['feminino', 'feminina'].includes(sexoAluno)){
         genero.aluno = 'A aluna'
 
-        if(mediaAluno === 'APROVADO!') genero.status = 'APROVADA!'
-        if(mediaAluno === 'REPROVADO!') genero.status = 'REPROVADA!'
+        if(status === 'APROVADO!') genero.status = 'APROVADA!'
+        if(status === 'REPROVADO!') genero.status = 'REPROVADA!'
+        if(status === 'EXAME!') genero.status = 'EXAME!'
         }
 
     if(['feminina', 'feminino'].includes(sexoProfessor)){
